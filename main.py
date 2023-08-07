@@ -3,7 +3,7 @@ import urllib.request
 import re
 from time import sleep
 import pandas as pd
-
+import datetime
 
 def get_offers():
     source = urllib.request.urlopen('https://www.olx.pl/elektronika/telefony/smartfony-telefony-komorkowe/iphone/?search%5Bfilter_enum_phonemodel%5D%5B0%5D=iphone-14-pro&search%5Bfilter_enum_phonemodel%5D%5B1%5D=iphone-13-pro').read()
@@ -111,12 +111,16 @@ def main():
             offer_source = urllib.request.urlopen(offer).read()
             offer_soup = BeautifulSoup(offer_source,'html.parser')
             offer_attr = collect_ad_data(offer_soup)
-            dict_to_df_merge(df, offer_attr).to_csv('olx_iphone.csv')
+            df = dict_to_df_merge(df, offer_attr)
 
         except Exception as e:
             print(f'Error in offer URL: {offer} \n Error message: {e}')
             continue
 
         sleep(3)
+    
+    now = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    file_title = f'olx_iphone_{now}.csv'
+    df.to_csv(file_title)
 
 main()
