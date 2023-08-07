@@ -11,20 +11,6 @@ def get_offers():
     offers = [site + tag.get("href") for tag in soup.find_all('a', {"class":"css-rc5s2u"})]
     return offers
 
-def get_price(offer_soup):
-    soup = offer_soup
-    attr = soup\
-        .findAll('h2')
-    pattern = r'<h2 class=".*?">(.*?)</h2>'
-
-    for a in attr:
-        match = re.search(pattern, str(a))
-        if match:
-            extracted_text = match.group(1)
-            if 'zł' in extracted_text:
-                price = extracted_text
-    return price
-
 def get_attributes(offer_soup):
     offer_attr = {}
 
@@ -53,6 +39,20 @@ def get_attributes(offer_soup):
                     offer_attr['Typ'] = extracted_text_type
     return offer_attr
 
+def get_price(offer_soup):
+    soup = offer_soup
+    attr = soup\
+        .findAll('h2')
+    pattern = r'<h2 class=".*?">(.*?)</h2>'
+
+    for a in attr:
+        match = re.search(pattern, str(a))
+        if match:
+            extracted_text = match.group(1)
+            if 'zł' in extracted_text:
+                price = extracted_text
+    return price
+
 def get_description(offer_soup):
     soup = offer_soup
     for desc in soup.find_all('div', {"class":"css-bgzo2k er34gjf0"}):
@@ -79,13 +79,26 @@ def get_add_title(offer_soup):
             add_title = match.group(1)
     return add_title
 
+def collect_ad_data(offer_soup):
+    offer_attr = get_attributes(offer_soup)
+    offer_attr['Cena'] = get_price(offer_soup)
+    offer_attr['Opis'] = get_description(offer_soup)
+    offer_attr['Data opublikowania ogłoszenia'] = get_posted_date(offer_soup)
+    offer_attr['Tytuł'] = get_add_title(offer_soup)
+    return offer_attr
+
 def main():
     offers = get_offers()
     for offer in offers:
-        offer_source = urllib.request.urlopen(offer).read()
-        offer_soup = BeautifulSoup(offer_source,'html.parser')
-        offer_attr = get_attributes(offer_soup)
-        print(offer_attr)
+        try:
+            offer_source = urllib.request.urlopen(offer).read()
+            offer_soup = BeautifulSoup(offer_source,'html.parser')
+            offer_attr = collect_ad_data(offer_soup)
+
+        except Exception as e:
+            print(e)
+            continue
+
         sleep(5)
 
 main()
