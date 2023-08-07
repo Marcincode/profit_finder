@@ -79,8 +79,6 @@ def main():
     for offer in offers:
         offer_source = urllib.request.urlopen(offer).read()
         offer_soup = BeautifulSoup(offer_source,'html.parser')
-        offer_attr = get_attributes(offer_soup)
-        print(offer_attr)
         sleep(5)
 
 main()
