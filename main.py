@@ -83,7 +83,7 @@ def get_add_title(offer_soup):
 def collect_ad_data(offer_soup):
     offer_attr = get_attributes(offer_soup)
     offer_attr['Cena'] = get_price(offer_soup)
-    offer_attr['Opis'] = get_description(offer_soup)
+    #offer_attr['Opis'] = get_description(offer_soup)
     offer_attr['Data opublikowania ogłoszenia'] = get_posted_date(offer_soup)
     offer_attr['Tytuł'] = get_add_title(offer_soup)
     return offer_attr
