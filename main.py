@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import urllib.request
 import re
 from time import sleep
+import pandas as pd
 
 
 def get_offers():
@@ -87,18 +88,35 @@ def collect_ad_data(offer_soup):
     offer_attr['Tytuł'] = get_add_title(offer_soup)
     return offer_attr
 
+def dict_to_df_merge(df, dictionary):
+    df_toMerge = pd.DataFrame(dictionary, index=[1])
+    df = pd.concat([df, df_toMerge], axis=0, ignore_index=True)
+
+    return df
+    
+
+
 def main():
+    columns = ['Tytuł', 'Model telefonu', 'Wbudowana pamięć', 'Stan', 'Cena', 'Typ', 'Kolor', 'Opis',
+    'Data opublikowania ogłoszenia']
+    df = pd.DataFrame(columns=columns)
+
     offers = get_offers()
+
+    debug = 'n'
+    offers = offers if debug == 'n' else offers[0:1]
+
     for offer in offers:
         try:
             offer_source = urllib.request.urlopen(offer).read()
             offer_soup = BeautifulSoup(offer_source,'html.parser')
             offer_attr = collect_ad_data(offer_soup)
+            dict_to_df_merge(df, offer_attr).to_csv('olx_iphone.csv')
 
         except Exception as e:
-            print(e)
+            print(f'Error in offer URL: {offer} \n Error message: {e}')
             continue
 
-        sleep(5)
+        sleep(3)
 
 main()
