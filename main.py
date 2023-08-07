@@ -26,7 +26,7 @@ def get_price(offer_soup):
     return price
 
 def get_attributes(offer_soup):
-    offer_attr = []
+    offer_attr = {}
 
     soup = offer_soup
     attr = soup.findAll('p')
@@ -40,12 +40,17 @@ def get_attributes(offer_soup):
         if match:
             extracted_text = match.group(1)
             if ':' in extracted_text and 'Więcej od tego ogłoszeniodawcy' not in extracted_text:
-                offer_attr.append(extracted_text)
+                try:
+                    key, value = extracted_text.split(':')
+                    offer_attr[key] = value.lstrip()
+                except Exception as e:
+                    print(e)
+                    continue
             match_type = re.search(pattern_type, str(extracted_text))
             if match_type:
                 extracted_text_type = match_type.group(1)  
                 if extracted_text_type in ['Firmowe', 'Prywatne']:
-                    offer_attr.append('Typ: ' + extracted_text_type)
+                    offer_attr['Typ'] = extracted_text_type
     return offer_attr
 
 def get_description(offer_soup):
@@ -79,6 +84,8 @@ def main():
     for offer in offers:
         offer_source = urllib.request.urlopen(offer).read()
         offer_soup = BeautifulSoup(offer_source,'html.parser')
+        offer_attr = get_attributes(offer_soup)
+        print(offer_attr)
         sleep(5)
 
 main()
