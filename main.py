@@ -97,8 +97,8 @@ def dict_to_df_merge(df, dictionary):
 
 
 def main():
-    columns = ['Tytuł', 'Model telefonu', 'Wbudowana pamięć', 'Stan', 'Cena', 'Typ', 'Kolor', 'Opis',
-    'Data opublikowania ogłoszenia']
+    columns = ['Tytuł', 'Model telefonu', 'Wbudowana pamięć', 'Stan', 'Cena', 'Typ', 'Kolor',
+    'Data opublikowania ogłoszenia', 'URL']
     df = pd.DataFrame(columns=columns)
 
     offers = get_offers()
@@ -111,6 +111,7 @@ def main():
             offer_source = urllib.request.urlopen(offer).read()
             offer_soup = BeautifulSoup(offer_source,'html.parser')
             offer_attr = collect_ad_data(offer_soup)
+            offer_attr['URL'] = offer
             df = dict_to_df_merge(df, offer_attr)
 
         except Exception as e:
