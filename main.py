@@ -120,7 +120,7 @@ def main():
         sleep(3)
     
     now = datetime.datetime.now().strftime("%Y%m%d%H%M")
-    file_title = f'olx_iphone_{now}.csv'
+    file_title = f'data/stage/olx_iphone_{now}.csv'
     df.to_csv(file_title)
 
 main()
