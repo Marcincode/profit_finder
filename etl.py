@@ -41,6 +41,12 @@ def merge_and_save(df):
         input_df = pd.read_csv(output_dir)
         df_diff = pd.concat([input_df, df],ignore_index=True).drop_duplicates(subset='URL', keep="first")
         df_diff.to_csv(output_dir, index=False)
+        new_rows = len(df_diff) - len(input_df)
+        if len(new_rows)>0:
+            print(f'Added {len(new_rows)} new rows')
+        else:
+            print("No new rows added")
+
     else:
         df.to_csv(output_dir, index=False)
 
@@ -48,10 +54,13 @@ def archive(file):
     osreplace(file, file.replace('stage', 'archive'))
     
 def main():
-    for file in stage_files:
-        df = transform_file_to_df(file)
-        merge_and_save(df)
-        archive(file)
+    if len(stage_files)>0:
+        for file in stage_files:
+            df = transform_file_to_df(file)
+            merge_and_save(df)
+            archive(file)
+    else:
+        print("No files in stage found")
 
 main()
 
