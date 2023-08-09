@@ -42,8 +42,8 @@ def merge_and_save(df):
         df_diff = pd.concat([input_df, df],ignore_index=True).drop_duplicates(subset='URL', keep="first")
         df_diff.to_csv(output_dir, index=False)
         new_rows = len(df_diff) - len(input_df)
-        if len(new_rows)>0:
-            print(f'Added {len(new_rows)} new rows')
+        if new_rows>0:
+            print(f'Added {new_rows} new rows')
         else:
             print("No new rows added")
 

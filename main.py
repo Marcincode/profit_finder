@@ -1,8 +1,8 @@
-import etl, scrap_data
+import subprocess
 
 def main():
-    scrap_data.main()
-    etl.main()
+    subprocess.run(['python3.10', 'scrap_data.py'])
+    subprocess.run(['python3.10', 'etl.py'])
 
 if __name__ == '__main__':
     main()
