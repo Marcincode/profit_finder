@@ -32,6 +32,8 @@ def transform_file_to_df(file):
     df['Data opublikowania'] = df['Data opublikowania ogłoszenia'].map(lambda x: extract_date + x.replace('Dzisiaj o', '') if 'Dzisiaj o' in x else dt.strptime(x, '%d %B %Y').strftime("%Y-%m-%d 00:00"))
     
     df['Wbudowana pamięć (GB)'] = df['Wbudowana pamięć'].str.replace('GB','')
+    df['Wbudowana pamięć (GB)'] = df['Wbudowana pamięć (GB)'].str.replace(".0","")
+    
     df_output = df[output_columns]
 
     return df_output

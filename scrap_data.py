@@ -117,7 +117,7 @@ def main():
         except Exception as e:
             print(f'Error in offer URL: {offer} \n Error message: {e}')
             continue
-
+        print(f'Collected data for offer: {offer}')
         sleep(3)
     
     now = datetime.datetime.now().strftime("%Y%m%d%H%M")
