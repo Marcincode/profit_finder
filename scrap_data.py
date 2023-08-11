@@ -118,11 +118,13 @@ def main():
             print(f'Error in offer URL: {offer} \n Error message: {e}')
             continue
         print(f'Collected data for offer: {offer}')
-        sleep(3)
+        sleep(2)
     
     now = datetime.datetime.now().strftime("%Y%m%d%H%M")
     file_title = f'data/stage/olx_iphone_{now}.csv'
     df.to_csv(file_title)
     print(f'Extracted {len(df)} rows')
 
-main()
+if __name__ == "__main__":
+   # stuff only to run when not called via 'import' here
+   main()

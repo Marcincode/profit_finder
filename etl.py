@@ -41,6 +41,7 @@ def transform_file_to_df(file):
 def merge_and_save(df):
     if path.isfile(output_dir):
         input_df = pd.read_csv(output_dir)
+        # Make sure to keep those up-to-date in case of offer changes
         df_diff = pd.concat([input_df, df],ignore_index=True).drop_duplicates(subset='URL', keep="first")
         df_diff.to_csv(output_dir, index=False)
         new_rows = len(df_diff) - len(input_df)
@@ -64,5 +65,7 @@ def main():
     else:
         print("No files in stage found")
 
-main()
+if __name__ == "__main__":
+   # stuff only to run when not called via 'import' here
+   main()
 
