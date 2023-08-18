@@ -5,6 +5,8 @@ from time import sleep
 import pandas as pd
 import datetime
 
+### TO DO: Create config file and import
+price_header = 'h3'
 def get_offers():
     source = urllib.request.urlopen('https://www.olx.pl/elektronika/telefony/smartfony-telefony-komorkowe/iphone/?search%5Bfilter_enum_phonemodel%5D%5B0%5D=iphone-14-pro&search%5Bfilter_enum_phonemodel%5D%5B1%5D=iphone-13-pro').read()
     soup = BeautifulSoup(source,'html.parser')
@@ -43,8 +45,8 @@ def get_attributes(offer_soup):
 def get_price(offer_soup):
     soup = offer_soup
     attr = soup\
-        .findAll('h2')
-    pattern = r'<h2 class=".*?">(.*?)</h2>'
+        .findAll(price_header)
+    pattern = rf'<{price_header} class=".*?">(.*?)</{price_header}>'
 
     for a in attr:
         match = re.search(pattern, str(a))
