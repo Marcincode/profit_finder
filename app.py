@@ -5,24 +5,6 @@ import os
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
-
-def index():
-    csv_data = []
-    with open('data/output/iphone_profit.csv', 'r') as csvfile:
-        csvreader = csv.reader(csvfile)
-        for row in csvreader:
-            csv_data.append(row)
-    return render_template('index.html', csv_data=csv_data[1:])  # Ignorujemy nagłówki kolumn
-
-if __name__ == '__main__':
-    app.run(debug=True)
-from flask import Flask, render_template, request
-import csv
-import os
-
-app = Flask(__name__)
-
-@app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         updated_data = request.form.getlist('updated_data[]')
@@ -51,6 +33,11 @@ def update_csv(updated_data):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerows(rows)
 
+@app.route('/run_script', methods=['POST'])
+def run_script():
+    import subprocess
+    subprocess.run(['python3.10', 'main.py'])
+    return 'Script executed successfully'
 
 if __name__ == '__main__':
     app.run(debug=True)
