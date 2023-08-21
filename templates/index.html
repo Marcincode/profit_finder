@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>iPhone Profit Finder</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>iPhone Profit Finder</h1>
+    
+    <form method="POST">
+        <table>
+            <tr>
+                {% for header in csv_data[0] %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in csv_data[1:] %}
+                <tr>
+                    {% for cell in row %}
+                        {% if loop.index0 == 9 %}
+                            <td><a href="{{ cell }}">{{ cell }}</a></td>
+                        {% else %}
+                            <td>{{ cell }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <select name="updated_data[]">
+                            <option value="Y" {% if row[-1] == 'Y' %}selected{% endif %}>Y</option>
+                            <option value="N" {% if row[-1] == 'N' %}selected{% endif %}>N</option>
+                        </select>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>        
+
+        <button type="submit">Aktualizuj</button>
+    </form>
+</body>
+</html>

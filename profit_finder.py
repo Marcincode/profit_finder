@@ -14,13 +14,15 @@ to_delete_csv = 'data/output/to_delete.csv'
 def delete_not_available_offers(df):
 
     for URL in df['URL']:
-        source = urllib.request.urlopen(URL).read()
-        soup = BeautifulSoup(source,'html.parser')
         try:
+            source = urllib.request.urlopen(URL).read()
+            soup = BeautifulSoup(source,'html.parser')
             get_add_title(soup)
         except Exception as e:
-            if e == "local variable 'add_title' referenced before assignment":
+            print(e)
+            if (str(e) == "local variable 'add_title' referenced before assignment") or str(e) == 'HTTP Error 404: Not Found':
                 df = df.loc[df['URL'] != URL]
+                print(URL + ' deleted')
                 continue
         sleep(2)
     
@@ -44,6 +46,7 @@ def merge_clean_save(df):
     df['Revieved? (Y/N)'] = 'N'
     df = delete_not_available_offers(df)
     df.to_csv(output_dir, index=False)
+    print(f'{len(df)} promos available for review')
 
 
 def main():
