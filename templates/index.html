@@ -6,7 +6,6 @@
 </head>
 <body>
     <h1>iPhone Profit Finder</h1>
-    
     <form method="POST">
         <table>
             <tr>
@@ -17,23 +16,33 @@
             {% for row in csv_data[1:] %}
                 <tr>
                     {% for cell in row %}
-                        {% if loop.index0 == 9 %}
+                        {% if loop.index == loop.length %}
+                            <td>
+                                <select class="update-dropdown" name="updated_data[]">
+                                    <option value="{{ row[-1] }}" selected>{{ row[-1] }}</option>
+                                    <option value="{{ 'Y' if row[-1] == 'N' else 'N' }}">{{ 'Y' if row[-1] == 'N' else 'N' }}</option>
+                                </select>
+                            </td>
+                        {% elif loop.index0 == 9 %}
                             <td><a href="{{ cell }}">{{ cell }}</a></td>
                         {% else %}
                             <td>{{ cell }}</td>
                         {% endif %}
                     {% endfor %}
-                    <td>
-                        <select name="updated_data[]">
-                            <option value="Y" {% if row[-1] == 'Y' %}selected{% endif %}>Y</option>
-                            <option value="N" {% if row[-1] == 'N' %}selected{% endif %}>N</option>
-                        </select>
-                    </td>
                 </tr>
             {% endfor %}
         </table>        
-
-        <button type="submit">Aktualizuj</button>
+        <button type="submit" id="hidden-submit-button" style="display: none;"></button>
     </form>
+<script>
+        const dropdowns = document.querySelectorAll('.update-dropdown');
+    
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('change', function() {
+                const submitButton = document.getElementById('hidden-submit-button');
+                submitButton.click();
+            });
+        });
+</script>
 </body>
 </html>
