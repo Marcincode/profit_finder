@@ -1,14 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iPhone Profit Finder</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>iPhone Profit Finder</h1>
-    <form method="POST" action="/run_script">
-        <button type="submit">Find new profit offers!</button>
-    </form>
+    <div id="runButtonContainer">
+        <button id="runButton">Run Python Script</button>
+        <div class="loader-container">
+            <div class="loader" id="loader"></div>
+        </div>
+    </div>
+    <div id="status"></div>    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#runButton").click(function() {
+                var loader = $("#loader");
+                var status = $("#status");
+                var table = $("table"); // Get reference to the table element
+    
+                loader.show();
+                status.text("Running script...");
+    
+                $.get("/run_script", function(data) {
+                    loader.hide();
+                    status.text(data);
+    
+                    // Refresh the table content by reloading the page
+                    table.load(location.href + " table>*", function() {
+                        // Reattach the dropdown change event listener
+                        reattachDropdownListener();
+                    });
+                });
+            });
+    
+            function reattachDropdownListener() {
+                const dropdowns = document.querySelectorAll('.update-dropdown');
+    
+                dropdowns.forEach(dropdown => {
+                    dropdown.removeEventListener('change', handleDropdownChange);
+                    dropdown.addEventListener('change', handleDropdownChange);
+                });
+            }
+    
+            function handleDropdownChange() {
+                const submitButton = document.getElementById('hidden-submit-button');
+                submitButton.click();
+            }
+    
+            // Attach the initial dropdown change event listener
+            reattachDropdownListener();
+        });
+    </script>    
+      
     <form method="POST">
         <table>
             <tr>

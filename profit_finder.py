@@ -47,16 +47,21 @@ def merge_clean_save(df):
     df = delete_not_available_offers(df)
     df.to_csv(output_dir, index=False)
     print(f'{len(df)} promos available for review')
+    return df
 
 
-def main():
-
+def get_promos():
+    promos = 0
     df = pd.read_csv(input_dir)
     df['Cena (Mediana - Model, pamięć, stan)'] = df.groupby(['Model telefonu', 'Wbudowana pamięć (GB)', 'Stan'])['Cena (zł)'].transform('median')
     df['Okazyjna cena dla parametrów'] = df['Cena (Mediana - Model, pamięć, stan)'].map(lambda x: x - (x * 0.15))
     df['Potencjalny zysk?'] =  df['Okazyjna cena dla parametrów'] - df['Cena (zł)']
     df_promo = df.loc[df['Potencjalny zysk?']>0].sort_values('Potencjalny zysk?', ascending=False)
-    merge_clean_save(df_promo)
+    promos = merge_clean_save(df_promo)
+    return f'{len(promos)} offers available for review.'
+
+def main():
+    get_promos()
 
 
 if __name__ == "__main__":

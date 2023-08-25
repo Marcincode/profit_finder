@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request
+from flask_socketio import SocketIO
+import subprocess
 import csv
-import os
+from profit_finder import get_promos
+
 
 app = Flask(__name__)
+socketio = SocketIO(app)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -33,11 +38,12 @@ def update_csv(updated_data):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerows(rows)
 
-@app.route('/run_script', methods=['POST'])
-def run_script():
-    import subprocess
+@app.route("/run_script")
+def run_script_route():
     subprocess.run(['python3.10', 'main.py'])
-    return 'Script executed successfully'
+    result = get_promos()
+    return result
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
+    socketio.run(app, debug=True)
