@@ -7,14 +7,14 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>iPhone Profit Finder</h1>
-    <div id="runButtonContainer">
-        <button id="runButton">Run Python Script</button>
+    <h1 class="center">iPhone Profit Finder</h1>
+    <div class="button-status-wrapper">
+        <button class="button" id="runButton">Find new offers</button>
+        <div class="status-container" id="status"></div>    
         <div class="loader-container">
             <div class="loader" id="loader"></div>
         </div>
     </div>
-    <div id="status"></div>    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -24,7 +24,7 @@
                 var table = $("table"); // Get reference to the table element
     
                 loader.show();
-                status.text("Running script...");
+                status.text("Searching for the new profit offers...");
     
                 $.get("/run_script", function(data) {
                     loader.hide();

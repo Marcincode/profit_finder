@@ -1,38 +1,110 @@
 table {
+  
     border-collapse: collapse;
     width: 100%;
   }
   
   th, td {
-    border: 1px solid black;
+    border: 1px solid rgb(71, 68, 68);
     padding: 8px;
     text-align: left;
   }
   
+  td {
+    background-color: #e0e9ed;
+  }
+
   th {
-    background-color: #f2f2f2;
+    background-color:#5643CC;
+    -webkit-text-fill-color: aliceblue;
   }
   
   select {
     width: 100px;
   }
-  
+
+.center {
+  text-align: center;
+}
+
+.button-status-wrapper {
+  background-color:#270487;
+  border-radius: 1%;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 3px;
+
+}
+ 
+.button {
+  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+  border-radius: 8px;
+  border-color: azure;
+  border-style: solid;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 2.5rem;
+  padding: 0 1.6rem;
+  margin-left: 2px;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all .5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button:hover {
+  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+  transition-duration: .1s;
+}
+
+@media (min-width: 768px) {
+  .button {
+    padding: 0 2.6rem;
+  }
+} 
+
+
+.status-container {
+  align-self: flex-end;
+  -webkit-text-fill-color: whitesmoke;
+  overflow: hidden;
+  margin-bottom: 10px;
+  margin-top: auto;
+  margin-left: 15px;
+}
+
 .loader-container {
   display: flex;
-  align-items: center;
+  align-items: table;
   justify-content: center;
   height: 100%;
+  margin-bottom: 10px;
+  margin-left: 3px;
+  overflow: hidden;
+  font-size: 20px;
 }
 
 .loader {
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid #3498db;
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 6px solid #3498db;
     border-radius: 50%;
     width: 16px; /* Adjust size to your preference */
     height: 16px; /* Adjust size to your preference */
     animation: spin 2s linear infinite;
     margin-left: 8px; /* Add some spacing between button text and loader */
+    margin-top: 16px;
     display: none;
+    align-items: right;
 }
 
 
