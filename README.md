@@ -52,7 +52,7 @@ Some of the html tags from [scrap_data.py](scrap_data.py) may change over time a
 
 ## ✍️ Authors <a name = "authors"></a>
 
-- [@marcinwiniarski](https://github.com/marcinwiniarski)
+- [@Marcincode](https://github.com/Marcincode)
 
 ## Important notice <a name = "Important"></a>
 
